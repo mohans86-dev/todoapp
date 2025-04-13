@@ -1,6 +1,5 @@
 const express=require('express');
 const auth=require('../middleware/userjwt');
-
 const Todo=require('../models/Todo'); 
 
 const router=express.Router();
@@ -113,17 +112,26 @@ router.delete('/:id', async (req, res, next)=>{
     try {
         let toDo=await Todo.findById(req.params.id);
         if(!toDo){
-            return res.status(400).json({succes:false, msg:"Task todo not exist"});
+            return res.status(400).json({
+                succes:false, 
+                msg:"Task todo not exist"
+            });
         }
         toDo=await Todo.findByIdAndDelete(req.params.id);
         if(!toDo){
-            return res.status(404).json({succes:false, msg:"Something went wrong"});
+            return res.status(404).json({
+                success:false, 
+                msg:"Something went wrong"
+            });
         }
-        return res.status(200).json({succes:true, msg:"Task deleted"});
+        return res.status(200).json({
+            success:true, 
+            msg:"Task deleted"
+        });
     } catch (error) {
         next(error);
     }
-})
+});
 
 module.exports=router;
 

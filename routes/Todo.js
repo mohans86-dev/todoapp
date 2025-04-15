@@ -110,23 +110,18 @@ router.put('/:id', async (req, res, next)=>{
 //method (DELETE)
 router.delete('/:id', async (req, res, next)=>{
     try {
-        let toDo=await Todo.findById(req.params.id);
-        if(!toDo){
-            return res.status(400).json({
-                succes:false, 
-                msg:"Task todo not exist"
-            });
-        }
-        toDo=await Todo.findByIdAndDelete(req.params.id);
-        if(!toDo){
+        const toDo = await Todo.findByIdAndDelete(req.params.id);
+
+        if (!toDo) {
             return res.status(404).json({
-                success:false, 
-                msg:"Something went wrong"
+                success: false,
+                msg: "Task not found"
             });
         }
+
         return res.status(200).json({
-            success:true, 
-            msg:"Task deleted"
+            success: true,
+            msg: "Task deleted"
         });
     } catch (error) {
         next(error);
